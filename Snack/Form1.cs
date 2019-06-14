@@ -13,19 +13,23 @@ namespace Snack
 
         private const int snackLength = 10;
 
-        private SnackLines snack;
+        private SnackModel snack;
 
         private SnackFood snackFood;
 
         public Form1()
         {
             InitializeComponent();
-            this.snack = SnackLines.GenerateInstance(this.PB.Width, this.PB.Height, snackWidth, snackLength);
-            this.snackFood = SnackFood.RandomSnackFood(this.snack.SnackUnit);
+            this.Cb.DisplayMember = "Key";
+            this.Cb.ValueMember = "Value";
+            this.Cb.Items.Add(new Item() { Key = "一般模式", Value = "NormalModel" });
+            this.Cb.Items.Add(new Item() { Key = "無盡模式", Value = "InfiniteModel" });
+            this.Cb.SelectedIndex = 0;            
+        }
 
-            this.DrawPicture();
-            this.TR.Interval = trInteval;
-            this.TR.Start();
+        private void BtnStart_Click(object sender, System.EventArgs e)
+        {
+            this.Process();
         }
 
         private void TR_Tick(object sender, System.EventArgs e)
@@ -34,6 +38,7 @@ namespace Snack
             {
                 case MoveStepType.Stop:
                     this.TR.Stop();
+                    this.splitContainer1.Enabled = true;
                     MessageBox.Show("Game Over");
                     break;
                 case MoveStepType.EatFood:
@@ -68,6 +73,23 @@ namespace Snack
             }
         }
 
+        private void Process()
+        {
+            this.snack = SnackModel.GenerateInstance(
+                ((Item)this.Cb.SelectedItem).Value,
+                (this.PB.Width / snackWidth) * snackWidth,
+                (this.PB.Height / snackWidth) * snackWidth,
+                snackWidth,
+                snackLength);
+
+            this.snackFood = SnackFood.RandomSnackFood(this.snack.SnackUnit);
+
+            this.DrawPicture();
+            this.TR.Interval = trInteval;
+            this.splitContainer1.Enabled = false;
+            this.TR.Start();
+        }
+
         private void DrawPicture()
         {
             var bmp = new Bitmap(this.PB.Width, this.PB.Height);
@@ -86,6 +108,13 @@ namespace Snack
             g.FillRectangle(sb, this.snackFood.SmallX, this.snackFood.SmallY, this.snackFood.SideLength, this.snackFood.SideLength);
 
             this.PB.Image = bmp;
+        }
+
+        public class Item
+        {
+            public string Key { get; set; }
+
+            public string Value { get; set; }
         }
     }
 }

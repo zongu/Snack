@@ -55,9 +55,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\InfiniteModel.cs" />
+    <Compile Include="Model\NormalModel.cs" />
     <Compile Include="Model\PointUnit.cs" />
     <Compile Include="Model\SnackFood.cs" />
-    <Compile Include="Model\SnackLines.cs" />
+    <Compile Include="Model\SnackModel.cs" />
     <Compile Include="Model\SnackDirection.cs" />
     <Compile Include="Model\SnackUnit.cs" />
     <Compile Include="Program.cs" />

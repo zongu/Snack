@@ -78,20 +78,56 @@ namespace Snack.Model
             switch (Direction)
             {
                 case SnackDirection.Up:
-                    Y1 -= SideLength;
-                    Y2 -= SideLength;
+                    if (SmallY == 0)
+                    {
+                        Y1 = MaxHeight - SideLength;
+                        Y2 = MaxHeight;
+                    }
+                    else
+                    {
+                        Y1 -= SideLength;
+                        Y2 -= SideLength;
+                    }
+
                     break;
                 case SnackDirection.Left:
-                    X1 -= SideLength;
-                    X2 -= SideLength;
+                    if (SmallX == 0)
+                    {
+                        X1 = MaxWidth - SideLength;
+                        X2 = MaxWidth;
+                    }
+                    else
+                    {
+                        X1 -= SideLength;
+                        X2 -= SideLength;
+                    }
+
                     break;
                 case SnackDirection.Down:
-                    Y1 += SideLength;
-                    Y2 += SideLength;
+                    if(LargeY == MaxHeight)
+                    {
+                        Y1 = SideLength;
+                        Y2 = 0;
+                    }
+                    else
+                    {
+                        Y1 += SideLength;
+                        Y2 += SideLength;
+                    }
+                    
                     break;
                 case SnackDirection.Right:
-                    X1 += SideLength;
-                    X2 += SideLength;
+                    if(LargeX == MaxWidth)
+                    {
+                        X1 = SideLength;
+                        X2 = 0;
+                    }
+                    else
+                    {
+                        X1 += SideLength;
+                        X2 += SideLength;
+                    }
+                    
                     break;
                 case SnackDirection.None:
                 default:
@@ -109,7 +145,7 @@ namespace Snack.Model
         public void GrowUp()
         {
             var lastSnackUnit = this;
-            while(lastSnackUnit.NextSnackUnit != null)
+            while (lastSnackUnit.NextSnackUnit != null)
             {
                 lastSnackUnit = lastSnackUnit.NextSnackUnit;
             }
